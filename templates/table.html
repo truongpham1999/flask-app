@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Document List</h1>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                <tr>
+                    <td>{{ document[0] }}</td>
+                    <td>{{ document[1] }}</td>
+                    <td>{{ document[2] }}</td>
+                    <td>{{ document[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('add_document') }}" class="btn btn-primary">Add New Document</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
