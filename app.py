@@ -5,7 +5,7 @@ from src.tableListApp.routes.documentRoutes import documentBlueprint
 from src.tableListApp.models.document import db
 
 # Create the Flask application
-app = Flask(__name__)
+app = Flask(__name__, template_folder='src/tableListApp/templates')
 
 # Database configuration for SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@127.0.0.1/flaskdb'
