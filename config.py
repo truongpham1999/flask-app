@@ -1,0 +1,3 @@
+SQLALCHEMY_DATABASE_URI = 'mysql://root:root@127.0.0.1/flaskdb'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SECRET_KEY = '90328dksalowki1282'

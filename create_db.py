@@ -1,13 +1,6 @@
-import pymysql
+from app import app
+from src.tableListApp.models.document import db
 
-mydb = pymysql.connect(
-    host='localhost',
-    user='root',
-    password='root'
-)
-
-mycursor = mydb.cursor()
-mycursor.execute("CREATE DATABASE flaskdb")
-mycursor.execute("SHOW DATABASES")
-for db in mycursor:
-    print(db)
+with app.app_context():
+    db.create_all()
+    print("Database tables created.")
