@@ -10,30 +10,57 @@
     <div class="container mt-5">
         <h1 class="mb-4">Add New Document</h1>
 
-        <form action="{{ url_for('add_document') }}" method="post">
+        <form id="addDocumentForm">
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" class="form-control" name="title" required>
+                <input type="text" class="form-control" id="title" required>
             </div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
-                <input type="text" class="form-control" name="description" required>
+                <input type="text" class="form-control" id="description" required>
             </div>
 
             <div class="form-group">
                 <label for="status">Status:</label>
-                <input type="number" class="form-control" name="status" required>
+                <input type="number" class="form-control" id="status" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Add Document</button>
         </form>
 
-        <a href="{{ url_for('table_list') }}" class="btn btn-secondary mt-3">Back to Document List</a>
+        <a href="{{ url_for('documents.show_document_list') }}" class="btn btn-secondary mt-3">Back to Document List</a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // Handle form submission
+        $('#addDocumentForm').on('submit', function(event) {
+            event.preventDefault();
+
+            const title = $('#title').val();
+            const description = $('#description').val();
+            const status = $('#status').val();
+
+            // Send a POST request to the API
+            fetch('/documents/api/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, description, status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Document added successfully!');
+                    window.location.href = "{{ url_for('documents.show_document_list') }}";  // Redirect to document list
+                } else {
+                    alert('Failed to add document: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error adding document:', error));
+        });
+    </script>
 </body>
 </html>
