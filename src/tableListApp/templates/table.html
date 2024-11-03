@@ -10,15 +10,7 @@
     <div class="container mt-5">
         <h1 class="mb-4">Document List</h1>
 
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert alert-success" role="alert">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="documentTable">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -27,23 +19,43 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for document in documents %}
-                <tr>
-                    <td>{{ document[0] }}</td>
-                    <td>{{ document[1] }}</td>
-                    <td>{{ document[2] }}</td>
-                    <td>{{ document[3] }}</td>
-                </tr>
-                {% endfor %}
+            <tbody id="documentTableBody">
+                <!-- Document rows will be added here dynamically -->
             </tbody>
         </table>
 
-        <a href="{{ url_for('add_document') }}" class="btn btn-primary">Add New Document</a>
+        <a href="{{ url_for('documents.show_add_document_form') }}" class="btn btn-primary">Add New Document</a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Fetch documents from the API
+            fetch('/documents/api/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const documents = data.data;
+                        const tableBody = $('#documentTableBody');
+
+                        // Populate table rows
+                        documents.forEach(doc => {
+                            const row = `
+                                <tr>
+                                    <td>${doc.id}</td>
+                                    <td>${doc.title}</td>
+                                    <td>${doc.description}</td>
+                                    <td>${doc.status}</td>
+                                </tr>
+                            `;
+                            tableBody.append(row);
+                        });
+                    } else {
+                        alert("Failed to fetch documents");
+                    }
+                })
+                .catch(error => console.error('Error fetching documents:', error));
+        });
+    </script>
 </body>
 </html>
