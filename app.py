@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from src.tableListApp.routes.documentRoutes import documentBlueprint
 from src.tableListApp.models.document import db
+from flask_migrate import Migrate
 
 # Create the Flask application
 app = Flask(__name__, template_folder='src/tableListApp/templates')
@@ -14,6 +15,7 @@ app.secret_key = '90328dksalowki1282'
 
 # Initialize SQLAlchemy and enable CORS
 db.init_app(app)
+migrate = Migrate(app, db)
 CORS(app)
 
 # Registering the blueprint

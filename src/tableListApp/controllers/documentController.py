@@ -14,8 +14,7 @@ def get_document_by_id(document_id):
     document = document_service.get_document(document_id)
     if document:
         return jsonify(document), 200
-    else:
-        return jsonify({'status': 'fail', 'message': 'Document not found'}), 404
+    return jsonify({'status': 'fail', 'message': 'Document not found'}), 404
 
 def add_document():
     data = request.get_json()
@@ -29,5 +28,4 @@ def add_document():
     result = document_service.create_document(title, description, status)
     if result:
         return jsonify({'status': 'success', 'message': 'Document added successfully!'}), 201
-    else:
-        return jsonify({'status': 'fail', 'message': 'Failed to add document'}), 500
+    return jsonify({'status': 'fail', 'message': 'Failed to add document'}), 500
